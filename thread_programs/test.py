@@ -1,14 +1,8 @@
-# On the cmd:
-# python test.py [-n count] *argv
-# For example:
-# python test.py -n 4 100000 10000000
-# python test.py 100000 10000000
-
 import subprocess
 import sys
 import os
 
-if os.path.isfile("build/main/Debug/main.exe"):
+if os.path.isfile("thread_programs/build/main/Debug/main.exe"):
 	argv = sys.argv
 	proc = "4"
 	# [-n count]
@@ -17,15 +11,8 @@ if os.path.isfile("build/main/Debug/main.exe"):
 		proc = argv[k + 1]
 		k += 2
 	# fileMPI.exe
-	com = ["build/main/Debug/main.exe"]
+	com = ["thread_programs/build/main/Debug/main.exe"]
 	# *argv
-	argv = argv[k:]
-	
-	k = 1
-	for variable in argv:
-		print("-------------", k, "-------------")
-		print("--- Variable:", variable)
-		k += 1
-		subprocess.run(com+[variable, proc])
+	subprocess.run(com+argv[k:]+[proc])
 else:
 	print("Not found file")
