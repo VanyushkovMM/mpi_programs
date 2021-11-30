@@ -52,7 +52,6 @@ void funcVec(
 
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     if (procRank == 0) {
-        std::cout << text << ":\n";
         vec = new int[vecSize];
         fillVectorRandValue(vec, vecSize);
 
@@ -89,7 +88,6 @@ void trapez_method(
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     if (procRank == 0)
     {
-        std::cout << text << ":\n";
         start_time = MPI_Wtime();
         sequential = getSequentialOperations(a, b, n, f);
         end_time = MPI_Wtime();
