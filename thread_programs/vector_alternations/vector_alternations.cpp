@@ -36,6 +36,15 @@ int parallelCount(const int* vec, int len, int procCount) {
             elemsForProc + (i > 0 ? 1 : 0) + (i + 1 == procCount ? k : 0),
             std::ref(result[i])
         );
+    // for (int i = 0; i < procCount; i++)
+    //     t[i] = std::thread(
+    //         sequentialCount,
+    //         vec + elemsForProc * i,
+    //         elemsForProc + (i + 1 == procCount ? k : 0),
+    //         std::ref(result[i])
+    //     );
+    // for (int i = elemsForProc; i < len; i += elemsForProc)
+    //     result[0] += (unsigned int)(vec[i - 1] ^ vec[i]) >> 31;
 
     for (int i = 0; i < procCount; i++)
         /*if (t[i].joinable()) */t[i].join();
@@ -44,29 +53,3 @@ int parallelCount(const int* vec, int len, int procCount) {
         result[0] += result[i];
     return result[0];
 }
-
-// int parallelCount(const int* vec, int len, int procCount) {
-//     int elemsForProc = len / procCount;
-//     int k = len % procCount;
-//     int* result = new int[procCount]();
-//     std::thread* t = new std::thread[procCount];
-
-//     for (int i = 0; i < procCount; i++)
-//         t[i] = std::thread(
-//             sequentialCount,
-//             vec + elemsForProc * i,
-//             elemsForProc + (i + 1 == procCount ? k : 0),
-//             std::ref(result[i])
-//         );
-
-//     for (int i = 0; i < procCount; i++)
-//         /*if (t[i].joinable()) */t[i].join();
-
-//     for (int i = 1; i < procCount; i++)
-//         result[0] += result[i];
-
-//     for (int i = elemsForProc; i < len; i += elemsForProc)
-//         result[0] += (unsigned int)(vec[i - 1] ^ vec[i]) >> 31;
-
-//     return result[0];
-// }
