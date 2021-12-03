@@ -2,7 +2,11 @@ import subprocess
 import sys
 import os
 
-if os.path.isfile("mpi_programs/build/main/Debug/main.exe"):
+path = "build/main/Debug/main.exe"
+if os.path.isdir("mpi_programs"):
+	path = "mpi_programs/" + path
+
+if os.path.isfile(path):
 	argv = sys.argv
 	com = ["mpiexec"]
 	# [-n count]
@@ -10,9 +14,7 @@ if os.path.isfile("mpi_programs/build/main/Debug/main.exe"):
 	if (argv[k] == "-n"):
 		com += argv[k:k+2]
 		k += 2
-	# main.exe
-	com += ["mpi_programs/build/main/Debug/main.exe"]
 	
-	subprocess.run(com+argv[k:])
+	subprocess.run(com+[path]+argv[k:])
 else:
 	print("Not found file")
