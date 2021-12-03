@@ -17,5 +17,7 @@ Additional scripts:
 * `test.py` in directories `mpi_programs` and `thread_programs` - runs tests and prints results
 * `others/del_builds.py` - helps to safely delete build projects
 * `others/run_tests.py` - runs tests from a file `test_arguments.txt` and prints results
+
+Additional text files:
 * `others/test_arguments.txt` - this file stores the input data for test_programs (each line indicates the number of processes and the number of processed elements)
-* `others/results.txt` - table of test results (the average value of 10 runs is taken)
+* `results.txt` - table of test results (the average value of 10 runs is taken)
