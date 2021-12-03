@@ -118,6 +118,6 @@ class Table():
 		
 table = Table(result)
 print(table)
-f = open("others/results.txt", "w")
+f = open("results.txt", "w")
 f.write(str(table))
 f.close()
