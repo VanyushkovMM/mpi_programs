@@ -4,12 +4,11 @@
 
 void area(double& result, double a, double width, int n, const std::function<double(double)>& f) {
     result = 0;
+    double x = a;
     for (int i = 0; i < n; i++) {
-        double x1 = a + i * width;
-        double x2 = a + (i + 1) * width;
-        result += 0.5 * (x2 - x1) * (f(x1) + f(x2));
+        result += 0.5 * width * (f(x) + f(x + width));
+        x += width;
     }
-    result += 0;
 }
 
 double getSequentialOperations(double a, double b, int n, const std::function<double(double)>& f) {
@@ -37,7 +36,7 @@ double getParallelOperations(double a, double b, int n, const std::function<doub
         );
 
     for (int i = 0; i < procCount; i++)
-        /*if (t[i].joinable()) */t[i].join();
+        if (t[i].joinable()) t[i].join();
 
     for (int i = 1; i < procCount; i++)
         result[0] += result[i];

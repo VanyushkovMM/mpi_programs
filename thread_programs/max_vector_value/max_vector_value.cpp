@@ -37,7 +37,7 @@ int parallelMax(const int* vec, int len, int procCount) {
         );
 
     for (int i = 0; i < procCount; i++)
-        /*if (t[i].joinable()) */t[i].join();
+        if (t[i].joinable()) t[i].join();
 
     sequentialMax(result, procCount, std::ref(result[0]));
 
