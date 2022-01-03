@@ -5,6 +5,7 @@
 #include "max_vector_value.h"
 #include "vector_alternations.h"
 #include "trapez_method.h"
+#include "dijkstra.h"
 
 #define funcInt std::function<int(int*, const int)>
 #define funcDouble std::function<double(double)>
@@ -83,7 +84,7 @@ void trapez_method(
     double start_time, end_time;
     unsigned sTime, pTime;
     double sequential, parallel;
-    double a = 0, b = (n < 10000 ? n / 1000 : 10);
+    double a = 0, b = 19.9 * (n - 1) / (1e8 - 1) + 0.1;
 
     MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
     if (procRank == 0)
@@ -105,6 +106,52 @@ void trapez_method(
     }
 }
 
+void dijkstra(
+    const int n,
+    const char* text) 
+{
+    int size = 2;
+    int x = 10;
+    while (true) {
+        if (x < n) size += 38;
+        else break;
+        x *= 10;
+    }
+    // int size = 1.98 * (n < 100000 ? n / 1000 : 100) + 2;
+
+    int procRank;
+    double start_time, end_time;
+    unsigned sTime, pTime;
+    int* seq, * par;
+    int sequential = 1, parallel = 1;
+    MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
+
+    int* graf = gen_graf(size, procRank);
+
+    start_time = MPI_Wtime();
+    par = parallelDijkstra(graf, size);
+    if (procRank == 0) {
+        end_time = MPI_Wtime();
+        pTime = unsigned((end_time - start_time) * 1000);
+
+        start_time = MPI_Wtime();
+        seq = sequentialDijkstra(graf, size);
+        end_time = MPI_Wtime();
+        sTime = unsigned((end_time - start_time) * 1000);
+
+        size *= size;
+        for (int i = 0; i < size; i++)
+            if (seq[i] != par[i]) {
+                parallel = 0; break;
+            }
+
+        checkResults<int, unsigned>(text, sequential, parallel, sTime, pTime);
+        delete[] seq;
+    }
+    delete[] graf;
+    delete[] par;
+}
+
 int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
     const int n = atoi(argv[1]);
@@ -121,8 +168,7 @@ int main(int argc, char** argv) {
     const funcDouble x_polynom = [](double x) { return x * x - 5 * x + 4; };
     trapez_method(n, flag, "Polynom", x_polynom);
 
-    const funcDouble x_sin = [](double x) { return sin(x); };
-    trapez_method(n, flag, "Sin(x)", x_polynom);
+    dijkstra(n, "Dijkstra");
 
     MPI_Finalize();
 	return 0;
