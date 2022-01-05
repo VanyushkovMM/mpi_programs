@@ -44,8 +44,12 @@ for line in text:
 	for file in files:
 		for i in range(count):
 			param = line.split()
-			com = ["python", file + "/test.py"]
-			if len(param) > 1: com += ["-n"]
+			com = ["python3", file + "/test.py"]
+			if len(param) > 1:
+				if sys.platform == 'win32':
+					com += ["-n"]
+				elif sys.platform == 'linux':
+					com += ["-np"]
 			com += param
 			if len(param) == 1: param = ["4"] + param
 			result = subprocess.run(com, stdout=subprocess.PIPE, text=True)

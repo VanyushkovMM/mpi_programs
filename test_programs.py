@@ -6,7 +6,7 @@ import os
 countRepeat = "1"
 if len(sys.argv) > 1: countRepeat=sys.argv[1]
 
-subprocess.run(["python", "others/run_tests.py", countRepeat])
+subprocess.run(["python3", "others/run_tests.py", countRepeat])
 
 f = open("results.txt", "r")
 text = f.read()

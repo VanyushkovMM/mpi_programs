@@ -2,7 +2,11 @@ import subprocess
 import sys
 import os
 
-path = "build/main/Debug/main.exe"
+path = "build/main/"
+if sys.platform == 'win32':
+	path = path + "Debug/main.exe"
+elif sys.platform == 'linux':
+	path = path + 'main'
 if os.path.isdir("thread_programs"):
 	path = "thread_programs/" + path
 
@@ -11,7 +15,7 @@ if os.path.isfile(path):
 	proc = "4"
 	# [-n count]
 	k = 1
-	if (argv[k] == "-n"):
+	if (argv[k] in ['-n', '-np']):
 		proc = argv[k + 1]
 		k += 2
 

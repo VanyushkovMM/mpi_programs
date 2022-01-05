@@ -3,4 +3,7 @@ file(GLOB srcs "*.cpp") #Добавляем в переменную srcs все 
 
 add_executable(${main} ${srcs} ${hdrs})
 target_link_libraries(${main} ${max_vector_value} ${trapez_method} ${vector_alternations} ${dijkstra})
-# target_link_libraries(${main} ${MPI_LIBRARIES})
+
+if (UNIX)
+    target_link_libraries(${main} pthread)
+endif (UNIX)

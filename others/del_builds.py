@@ -5,7 +5,9 @@ from sys import argv
 files=["mpi_programs", "thread_programs"]
 
 def del_build(file):
-	path="../"+file+"/build"
+	path = file+"/build"
+	if not os.path.isdir(file):
+		path="../"+path
 	if os.path.isdir(path):
 		shutil.rmtree(path)
 		print("Success del", path)

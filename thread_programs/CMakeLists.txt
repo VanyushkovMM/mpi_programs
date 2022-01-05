@@ -8,9 +8,11 @@ set(trapez_method trapez_method)
 set(vector_alternations vector_alternations)
 set(dijkstra dijkstra)
 
-# find_package(MPI)
-# include_directories(${MPI_INCLUDE_PATH}) 
-# message(STATUS "Using MPI ${MPI_LIBRARIES}")
+if (UNIX)
+    find_package(Threads)
+    # include_directories(${THREADS_INCLUDE_PATH}) 
+    message(STATUS "Using Threads")
+endif (UNIX)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/max_vector_value ${CMAKE_CURRENT_SOURCE_DIR}/trapez_method ${CMAKE_CURRENT_SOURCE_DIR}/vector_alternations ${CMAKE_CURRENT_SOURCE_DIR}/dijkstra)
 
