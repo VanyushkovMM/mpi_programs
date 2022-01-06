@@ -63,7 +63,7 @@ class Line():
                 k = 1
                 if (seqMPI != seqTHR and seqMPI != 0):
                     k = seqTHR / seqMPI
-                parTHR = parMPI * k
+                parTHR = parTHR / k
                 self.sequential += [str(round(seqMPI, 2))]
                 self.mpi += [str(round(parMPI, 2))]
                 self.thread += [str(round(parTHR, 2))]
