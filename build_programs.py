@@ -8,6 +8,18 @@ if sys.platform == 'win32':
 
 files=["mpi_programs", "thread_programs"]
 
+def isBuild(path):
+	file = path
+	path += '/build/main/'
+	if sys.platform == 'win32':
+		path += 'Debug/main.exe'
+	else:
+		path += 'main'
+	if os.path.isfile(path):
+		print('\033[35m{}\033[37m'.format(f'File {file} is build!')) # PURPLE
+		return True
+	return False
+
 def checkBuild(path):
 	path += '/build/main/'
 	if sys.platform == 'win32':
@@ -21,12 +33,12 @@ def checkBuild(path):
 	print()
 
 def build_file(file):
-	build="/build && cmake .. && cmake --build ."
-	cd="cd "
+	build = "/build && cmake .. && cmake --build ."
+	cd = "cd "
 	if not os.path.isdir(file+"/build"):
 		os.system(cd+file+" && mkdir build")
 	com = cd+file+build
-	print('\033[33m{}\033[37m'.format('>>> '+com)) # YELLOW
+	print('\033[33m{}\033[37m'.format('>>> ' + com)) # YELLOW
 	os.system(com)
 	checkBuild(file)
 
@@ -36,4 +48,5 @@ elif len(sys.argv) == 2 and (sys.argv[1] in files):
 	build_file(sys.argv[1])
 else:
 	for file in files:
-		build_file(file)
+		if not isBuild(file):
+			build_file(file)
